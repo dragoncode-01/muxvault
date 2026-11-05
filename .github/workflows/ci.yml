@@ -1,0 +1,49 @@
+name: MuxVault CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://muxvault:muxvault@127.0.0.1:5432/muxvault
+      CARGO_PROFILE_DEV_DEBUG: 0
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: muxvault
+          POSTGRES_PASSWORD: muxvault
+          POSTGRES_DB: muxvault
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U muxvault"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run web:build
+      - run: npm run db:migrate
+      - run: cargo fmt --all -- --check
+      - run: cargo test --workspace --locked
+      - name: Install verified Stellar CLI
+        run: |
+          curl --fail --location --silent --show-error \
+            https://github.com/stellar/stellar-cli/releases/download/v30.0.1/stellar-cli-30.0.1-x86_64-unknown-linux-gnu.tar.gz \
+            -o /tmp/stellar-cli.tar.gz
+          echo "48c70074020e09af0a3ebbd2bf62d53c9aec47935e49a112d3cd90fb4e37658f  /tmp/stellar-cli.tar.gz" | sha256sum --check
+          mkdir -p /tmp/stellar-cli
+          tar -xzf /tmp/stellar-cli.tar.gz -C /tmp/stellar-cli
+          dirname "$(find /tmp/stellar-cli -name stellar -type f -print -quit)" >> "$GITHUB_PATH"
+      - run: stellar contract build --locked

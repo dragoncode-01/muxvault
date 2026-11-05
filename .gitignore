@@ -1,0 +1,13 @@
+/target/
+/node_modules/
+/dist/
+/deployments/
+/contracts/vault/test_snapshots/
+.env
+.env.*
+!.env.example
+.stellar/
+.soroban/
+*.log
+
+/frontend/dist/
