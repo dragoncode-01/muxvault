@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" fill="none">
+  <defs>
+    <radialGradient id="halo">
+      <stop stop-color="#b1f05e" stop-opacity=".34"/>
+      <stop offset=".45" stop-color="#628d3a" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#23341f" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" x2="1" y1="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#d5fc75" stop-opacity=".56"/>
+      <stop offset=".5" stop-color="#8cca51" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#182e1b" stop-opacity=".54"/>
+    </linearGradient>
+    <linearGradient id="face" x1="0" x2="0" y1="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#a9eb6e" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#202d20" stop-opacity=".06"/>
+    </linearGradient>
+    <pattern id="grid" width="27" height="27" patternUnits="userSpaceOnUse">
+      <path d="M0 27V0h27" stroke="#a6c88a" stroke-opacity=".11"/>
+      <circle cx="0" cy="0" r="1.2" fill="#d3f7a0" fill-opacity=".29"/>
+    </pattern>
+    <radialGradient id="gridMask"><stop stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <mask id="fade"><ellipse cx="430" cy="183" rx="362" ry="225" fill="url(#gridMask)"/></mask>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <ellipse cx="425" cy="177" rx="288" ry="190" fill="url(#halo)"/>
+  <path d="M0 0h720v350H0z" fill="url(#grid)" mask="url(#fade)"/>
+  <g stroke="#a2c96f">
+    <ellipse cx="436" cy="182" rx="237" ry="82" transform="rotate(-24 436 182)" stroke-opacity=".31"/>
+    <ellipse cx="436" cy="182" rx="207" ry="66" transform="rotate(-24 436 182)" stroke-opacity=".34" stroke-dasharray="2 7"/>
+    <ellipse cx="436" cy="182" rx="173" ry="75" transform="rotate(25 436 182)" stroke-opacity=".25"/>
+    <ellipse cx="436" cy="182" rx="151" ry="60" transform="rotate(25 436 182)" stroke-opacity=".18" stroke-dasharray="3 8"/>
+    <circle cx="436" cy="176" r="123" stroke-opacity=".15"/>
+    <circle cx="436" cy="176" r="104" stroke-opacity=".13"/>
+  </g>
+  <g stroke="#c3ed94" stroke-opacity=".24" stroke-dasharray="3 6">
+    <path d="M436 38v274M254 176h365"/>
+    <path d="M283 254h-52m366-153h53"/>
+  </g>
+  <g class="float-core">
+    <path d="m436 101 101 47-101 49-101-49z" fill="url(#metal)" stroke="#c8f69a" stroke-opacity=".88"/>
+    <path d="m335 148 101 49v86l-101-50z" fill="url(#face)" stroke="#aee27a" stroke-opacity=".68"/>
+    <path d="m436 197 101-49v85l-101 50z" fill="#192d19" fill-opacity=".72" stroke="#aee27a" stroke-opacity=".67"/>
+    <path d="m351 156 85 41 85-41m-85 41v69" stroke="#e1fdaf" stroke-opacity=".47"/>
+    <path d="m436 114 76 35-76 37-76-37z" stroke="#def8b0" stroke-opacity=".29" stroke-dasharray="4 5"/>
+    <path d="m381 148 55-26 55 26-55 27z" fill="#d5fc75" fill-opacity=".11" stroke="#d5fc75" stroke-opacity=".47"/>
+    <path d="m405 149 30-14 30 14-30 14z" fill="#e6ffa6" fill-opacity=".38" stroke="#dfff95" filter="url(#glow)"/>
+    <path d="m351 178 68 33m-68-17 68 33m-68-17 68 33m35-30 65-32m-65 49 65-32m-65 49 65-32" stroke="#beef96" stroke-opacity=".29"/>
+    <path d="m409 240 9 4m-9 5 9 4m38-41 17-8m-17 17 17-8m-17 17 17-8" stroke="#e8ffb2" stroke-opacity=".71" stroke-linecap="round"/>
+  </g>
+  <g fill="#d8ff83">
+    <circle cx="253" cy="247" r="3" filter="url(#glow)"/>
+    <circle cx="598" cy="115" r="3.6" filter="url(#glow)"/>
+    <circle cx="517" cy="64" r="2" fill-opacity=".67"/>
+    <circle cx="327" cy="105" r="2.7" fill-opacity=".8"/>
+    <circle cx="574" cy="245" r="2.3" fill-opacity=".6"/>
+    <circle cx="634" cy="162" r="2" fill-opacity=".68"/>
+    <circle cx="382" cy="290" r="2" fill-opacity=".61"/>
+  </g>
+  <path d="M631 96v10m-5-5h10M230 249v10m-5-5h10m104-188v10m-5-5h10" stroke="#b7d89a" stroke-opacity=".53"/>
+</svg>

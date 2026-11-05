@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101411" />
+    <meta name="description" content="Try MuxVault on Stellar Testnet. Open a subaccount, deposit test XLM, and withdraw from the shared vault." />
+    <link rel="icon" type="image/svg+xml" href="./muxvault.svg" />
+    <title>MuxVault · Stellar Testnet</title>
+    <script type="module" crossorigin src="./assets/index-C8b2UQrD.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-D79BduIJ.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to vault</a>
+    <header class="topbar">
+      <div class="shell nav-inner">
+        <a class="brand" href="#main" aria-label="MuxVault home">
+          <img src="./muxvault.svg" width="32" height="32" alt="" />
+          <span>MuxVault</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#main">Overview</a>
+          <a href="#activity">Activity</a>
+        </nav>
+        <div class="nav-actions">
+          <div class="network-pill"><span id="network-dot" class="dot" aria-hidden="true"></span><span>Stellar Testnet</span></div>
+          <button class="button button-outline nav-wallet" id="nav-wallet" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 8V6a2 2 0 0 0-2-2H6a3 3 0 0 0 0 6h13a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H6a3 3 0 0 1-3-3V7m18 5h-5a2 2 0 0 0 0 4h5"/></svg>
+            <span id="nav-wallet-label">Connect wallet</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell main-shell" id="main">
+      <section class="hero reveal" aria-labelledby="page-title">
+        <img class="hero-art" src="./vault-orbits.svg" alt="" />
+        <span class="hero-index" aria-hidden="true">01 / VAULT</span>
+        <div class="hero-content">
+          <div class="eyebrow"><span class="signal-mark" aria-hidden="true"></span> SOROBAN PLAYGROUND</div>
+          <h1 id="page-title">Stellar vault<br /><span>playground.</span></h1>
+          <p>Open a subaccount, deposit test XLM, and withdraw to your Stellar wallet.</p>
+          <div class="hero-actions">
+            <button class="button button-primary" id="hero-start" type="button">
+              Start testing
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+            </button>
+            <a class="text-link" id="explorer-link" target="_blank" rel="noopener noreferrer" hidden>
+              View contract
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="metrics reveal" aria-label="Vault balances">
+        <article class="metric">
+          <div class="metric-label">
+            <span class="metric-icon metric-person"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 20v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2"/></svg></span>
+            Your subaccount
+          </div>
+          <div class="metric-value" id="customer-balance">—</div>
+          <div class="metric-caption" id="customer-caption">Connect to get started</div>
+        </article>
+        <article class="metric">
+          <div class="metric-label">
+            <span class="metric-icon metric-reserve"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4.5-8 4.5-8-4.5L12 3Zm8 9-8 4.5L4 12m16 4.5L12 21l-8-4.5"/></svg></span>
+            Vault reserve
+          </div>
+          <div class="metric-value" id="reserve">—</div>
+          <div class="metric-caption">XLM held by the contract</div>
+        </article>
+        <article class="metric">
+          <div class="metric-label">
+            <span class="metric-icon metric-liability"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18V7m7 11V4m7 14v-7M3 20h18"/></svg></span>
+            Vault liabilities
+          </div>
+          <div class="metric-value" id="liabilities">—</div>
+          <div class="metric-caption">XLM credited to subaccounts</div>
+        </article>
+      </section>
+
+      <div class="workspace-grid reveal">
+        <section class="panel funds-panel" id="funds" aria-labelledby="funds-title">
+          <div class="panel-header">
+            <div>
+              <p class="kicker">SUBACCOUNT</p>
+              <h2 id="funds-title">Move funds</h2>
+            </div>
+            <div class="coverage" id="coverage" data-status="checking">
+              <span class="dot" aria-hidden="true"></span><span id="coverage-label">Checking reserve</span>
+            </div>
+          </div>
+          <div class="segmented" aria-label="Transaction type" role="group" data-mode="deposit" id="segmented">
+            <span class="segment-track" aria-hidden="true"></span>
+            <button class="segment" id="deposit-tab" aria-pressed="true" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg> Deposit
+            </button>
+            <button class="segment" id="withdraw-tab" aria-pressed="false" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17V5m-5 5 5-5 5 5M5 20h14"/></svg> Withdraw
+            </button>
+          </div>
+          <form id="funds-form">
+            <div class="field-top"><label for="amount">Amount</label><span id="amount-hint">Testnet XLM</span></div>
+            <div class="amount-box">
+              <input id="amount" name="amount" inputmode="decimal" autocomplete="off" placeholder="0.00" maxlength="40" aria-describedby="amount-hint" />
+              <span class="currency"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13 20 5M4 19l16-8M6 10a6 6 0 0 1 9-5m3 9a6 6 0 0 1-9 5"/></svg> XLM</span>
+            </div>
+            <div class="presets" aria-label="Suggested amounts">
+              <button class="preset" type="button" data-value="0.5">0.5 XLM</button>
+              <button class="preset" type="button" data-value="2">2 XLM</button>
+              <button class="preset" type="button" data-value="5">5 XLM</button>
+            </div>
+            <div class="recipient-field" id="recipient-field" hidden>
+              <label for="recipient">Recipient</label>
+              <input id="recipient" name="recipient" autocomplete="off" spellcheck="false" maxlength="56" placeholder="Your connected wallet" />
+            </div>
+            <button class="button button-primary full action-button" id="funds-action" type="submit">
+              <span id="funds-action-label">Connect wallet to continue</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+            </button>
+          </form>
+          <div class="panel-message" id="funds-status" role="status" aria-live="polite" hidden></div>
+        </section>
+
+        <aside class="panel wallet-panel" id="wallet" aria-labelledby="wallet-title">
+          <div class="panel-header">
+            <div>
+              <p class="kicker">GET STARTED</p>
+              <h2 id="wallet-title">Testnet wallet</h2>
+            </div>
+            <span class="wallet-emblem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 8V6a2 2 0 0 0-2-2H6a3 3 0 0 0 0 6h13a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H6a3 3 0 0 1-3-3V7m18 5h-5a2 2 0 0 0 0 4h5"/></svg></span>
+          </div>
+          <div class="wallet-empty" id="wallet-empty">
+            <p>Use a funded demo wallet or connect Freighter on Stellar Testnet.</p>
+            <button class="button button-soft full" type="button" id="create-wallet">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18m-9-9h18"/></svg> Create demo wallet
+            </button>
+            <button class="button button-outline full" type="button" id="connect-freighter">
+              Connect Freighter
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+            </button>
+          </div>
+          <div class="wallet-ready" id="wallet-ready" hidden>
+            <div class="wallet-address">
+              <span class="wallet-identity"><span class="dot" aria-hidden="true"></span><span><strong id="wallet-kind"></strong><span class="mono" id="wallet-address"></span></span></span>
+              <button class="icon-button" type="button" id="copy-wallet" aria-label="Copy wallet address">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 4H6a2 2 0 0 0-2 2v10"/></svg>
+              </button>
+            </div>
+            <p class="wallet-note" id="wallet-note"></p>
+            <div class="wallet-actions">
+              <button class="text-button" type="button" id="fund-wallet">Fund with Friendbot</button>
+              <button class="text-button muted" type="button" id="disconnect-wallet">Disconnect</button>
+            </div>
+          </div>
+          <div class="panel-message" id="wallet-status" role="status" aria-live="polite" hidden></div>
+          <div class="vault-details">
+            <div class="detail-line"><span>Asset</span><strong>Native XLM</strong></div>
+            <div class="detail-line">
+              <span>Vault address</span>
+              <button class="text-button mono address-button" id="copy-vault" type="button" disabled>
+                <span id="vault-address">—</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 4H6a2 2 0 0 0-2 2v10"/></svg>
+              </button>
+            </div>
+            <details id="load-account" hidden>
+              <summary>Use an existing subaccount</summary>
+              <form class="inline-form" id="account-form">
+                <input id="account-id" aria-label="Subaccount ID" inputmode="numeric" maxlength="20" placeholder="Subaccount ID" />
+                <button class="button button-outline" id="load-id" type="submit">Load</button>
+              </form>
+            </details>
+          </div>
+        </aside>
+      </div>
+
+      <section class="panel activity-panel reveal" id="activity" aria-labelledby="activity-title">
+        <div class="panel-header">
+          <div>
+            <p class="kicker">TRANSACTION HISTORY</p>
+            <h2 id="activity-title">Recent activity</h2>
+          </div>
+          <button class="button button-outline refresh-button" type="button" id="refresh">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2 6m2-11v5h-5"/></svg> Refresh
+          </button>
+        </div>
+        <p class="activity-empty" id="activity-empty">Confirmed transactions from this browser will appear here.</p>
+        <ul class="activity-list" id="activity-list" aria-label="Recent confirmed transactions" hidden></ul>
+      </section>
+    </main>
+
+    <footer class="shell footer">
+      <span>MuxVault <span aria-hidden="true">/</span> Stellar Testnet</span>
+      <a href="https://developers.stellar.org/docs/networks/testnet" target="_blank" rel="noopener noreferrer">About Testnet ↗</a>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>
