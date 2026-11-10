@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { parseAmount, parseAssetUnits, parseLedger, parseU64 } from "../packages/sdk-ts/src/amount.ts";
+import { formatAssetUnits, parseAmount, parseAssetUnits, parseLedger, parseU64 } from "../packages/sdk-ts/src/amount.ts";
 import { anchorReference, networkId, wReference } from "../packages/sdk-ts/src/references.ts";
 import { parsePayment } from "../services/anchor-adapter/src/payment.ts";
 import { finishPage, planWindow } from "../services/event-watcher/src/checkpoint.ts";
@@ -32,6 +32,18 @@ test("anchor amounts use exact seven-decimal conversion", () => {
   for (const invalid of ["0", "0.0000000", "1.23456789", "1e2", ".1", "1."]) {
     assert.throws(() => parseAssetUnits(invalid));
   }
+});
+
+test("asset unit formatting round-trips through the parser", () => {
+  assert.equal(formatAssetUnits(23_456_789n), "2.3456789");
+  assert.equal(formatAssetUnits(10_000_000n), "1");
+  assert.equal(formatAssetUnits(15_000_000n), "1.5");
+  assert.equal(formatAssetUnits(1n), "0.0000001");
+  assert.equal(formatAssetUnits(0n), "0");
+  for (const units of [1n, 9_999_999n, 10_000_001n, 123_456_789_012n]) {
+    assert.equal(parseAssetUnits(formatAssetUnits(units)), units);
+  }
+  assert.throws(() => formatAssetUnits(-1n));
 });
 
 test("references bind network, asset, vault and payment or event identity", () => {

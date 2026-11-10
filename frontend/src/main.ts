@@ -2,7 +2,7 @@ import "@fontsource-variable/manrope";
 import "./style.css";
 import { Asset, Networks, StrKey, rpc } from "@stellar/stellar-sdk";
 import type { Transaction } from "@stellar/stellar-sdk";
-import { parseAssetUnits, parseU64 } from "../../packages/sdk-ts/src/amount.ts";
+import { formatAssetUnits, parseAssetUnits, parseU64 } from "../../packages/sdk-ts/src/amount.ts";
 import { VaultClient } from "../../packages/sdk-ts/src/client.ts";
 import { RejectedTransaction, submit, transactionHash, transactionResult } from "../../packages/sdk-ts/src/transactions.ts";
 import type { Health, Subaccount } from "../../packages/sdk-ts/src/types.ts";
@@ -31,7 +31,7 @@ const ui = {
   balance: element("customer-balance"), caption: element("customer-caption"),
   coverage: element("coverage"), coverageLabel: element("coverage-label"),
   segment: element("segmented"), deposit: element<HTMLButtonElement>("deposit-tab"),
-  withdraw: element<HTMLButtonElement>("withdraw-tab"), fundsForm: element<HTMLFormElement>("funds-form"),
+  withdraw: element<HTMLButtonElement>("withdraw-tab"), max: element<HTMLButtonElement>("preset-max"), fundsForm: element<HTMLFormElement>("funds-form"),
   amount: element<HTMLInputElement>("amount"), amountHint: element("amount-hint"),
   recipientField: element("recipient-field"), recipient: element<HTMLInputElement>("recipient"),
   action: element<HTMLButtonElement>("funds-action"), actionLabel: element("funds-action-label"),
@@ -47,7 +47,7 @@ const ui = {
   loadId: element<HTMLButtonElement>("load-id"), refresh: element<HTMLButtonElement>("refresh"),
   emptyActivity: element("activity-empty"), activity: element("activity-list"), toast: element("toast"),
 };
-const presets = [...document.querySelectorAll<HTMLButtonElement>(".preset")];
+const presets = [...document.querySelectorAll<HTMLButtonElement>(".preset[data-value]")];
 const explorer = "https://stellar.expert/explorer/testnet";
 const actionNames = { register: "Subaccount opened", deposit: "Deposit", withdraw: "Withdrawal" };
 const actions: Action[] = ["register", "deposit", "withdraw"];
@@ -168,6 +168,8 @@ function render() {
   ui.recipient.disabled = locked;
   ui.amount.disabled = locked;
   for (const button of presets) button.disabled = locked;
+  ui.max.hidden = mode !== "withdraw" || !ready;
+  ui.max.disabled = locked || !subaccount || subaccount.balance === 0n;
   ui.navLabel.textContent = wallet ? shorten(wallet.address) : "Connect wallet";
 
   if (wallet) {
@@ -432,6 +434,11 @@ ui.deposit.addEventListener("click", () => switchMode("deposit"));
 ui.withdraw.addEventListener("click", () => switchMode("withdraw"));
 for (const button of presets) button.addEventListener("click", () => {
   ui.amount.value = button.dataset.value ?? "";
+  ui.amount.focus();
+});
+ui.max.addEventListener("click", () => {
+  if (!subaccount) return;
+  ui.amount.value = formatAssetUnits(subaccount.balance);
   ui.amount.focus();
 });
 ui.fundsForm.addEventListener("submit", (event) => { event.preventDefault(); void act(); });
