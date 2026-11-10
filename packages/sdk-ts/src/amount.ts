@@ -33,3 +33,10 @@ export function parseAssetUnits(text: string): bigint {
   const fractional = BigInt((match[2] ?? "").padEnd(7, "0"));
   return parseAmount((whole + fractional).toString());
 }
+
+export function formatAssetUnits(units: bigint): string {
+  if (units < 0n) throw new Error("Asset units must not be negative");
+  const whole = units / 10_000_000n;
+  const fraction = (units % 10_000_000n).toString().padStart(7, "0").replace(/0+$/, "");
+  return fraction ? `${whole}.${fraction}` : whole.toString();
+}
